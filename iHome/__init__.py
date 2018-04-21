@@ -4,23 +4,30 @@ from flask_sqlalchemy import SQLAlchemy
 import redis
 from flask_wtf.csrf import CSRFProtect
 from flask_session import Session
-from config import Config
-
-# 创建Flask应用程序实例
-app = Flask(__name__)
-
-
-# 从加载配置
-app.config.from_object(Config)
+from config import config_dict
 
 # 创建db对象
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 
-# redis
-redis_store = redis.StrictRedis(host=Config.REDIS_HOST,port=Config.REDIS_PORT)
+def create_app(config_name):
+    # 创建Flask应用程序实例
+    app = Flask(__name__)
 
-# 开启csrf保护
-CSRFProtect(app)
+    Config = config_dict[config_name]
 
-# session存储
-Session(app)
+    # 从加载配置
+    app.config.from_object(Config)
+
+    # db对象关联app
+    db.init_app(app)
+
+    # redis
+    redis_store = redis.StrictRedis(host=Config.REDIS_HOST,port=Config.REDIS_PORT)
+
+    # 开启csrf保护
+    CSRFProtect(app)
+
+    # session存储
+    Session(app)
+
+    return app

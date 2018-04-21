@@ -34,3 +34,8 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     """生产阶段的配置类"""
     DEBUG = False
+
+config_dict = {
+    'development': DevelopmentConfig,
+    'production': ProductionConfig
+}
