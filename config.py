@@ -4,8 +4,6 @@ import redis
 
 class Config(object):
     """配置文件"""
-    DEBUG = True
-
     # 设置secret key
     SECRET_KEY = '8j/iuN4cb2PCokc9rqYdfekUaRne2mUDR6mrGjuGwwhtN8kXGsUdixnjG2xP0DlT'
 
@@ -27,3 +25,12 @@ class Config(object):
     SESSION_USE_SIGNER = True
     # 设置session的过期时间
     PERMANENT_SESSION_LIFETIME = 86400 * 2
+
+
+class DevelopmentConfig(Config):
+    """开发阶段的配置类"""
+    DEBUG = True
+
+class ProductionConfig(Config):
+    """生产阶段的配置类"""
+    DEBUG = False
