@@ -5,6 +5,7 @@ import redis
 from flask_wtf.csrf import CSRFProtect
 from flask_session import Session
 from config import config_dict
+from utils.commons import RegexConverter
 
 # 创建db对象
 db = SQLAlchemy()
@@ -31,6 +32,9 @@ def create_app(config_name):
 
     # session存储
     Session(app)
+
+    # 添加路由转换器
+    app.url_map.converters['re'] = RegexConverter
 
     from iHome.api_1_0 import api
     app.register_blueprint(api, url_prefix='/api/v1.0')

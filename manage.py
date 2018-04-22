@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from flask_migrate import MigrateCommand, Migrate, Manager
-from iHome import create_app,db
+from iHome import create_app,db, models
 
 app = create_app('production')
 
