@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 import redis
+import logging
 
 
 class Config(object):
@@ -30,10 +31,12 @@ class Config(object):
 class DevelopmentConfig(Config):
     """开发阶段的配置类"""
     DEBUG = True
+    LOG_LEVEL = logging.DEBUG
 
 class ProductionConfig(Config):
     """生产阶段的配置类"""
     DEBUG = False
+    LOG_LEVEL = logging.WARNING
 
 config_dict = {
     'development': DevelopmentConfig,

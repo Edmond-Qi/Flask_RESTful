@@ -3,7 +3,7 @@
 from flask_migrate import MigrateCommand, Migrate, Manager
 from iHome import create_app,db, models
 
-app = create_app('production')
+app = create_app('development')
 
 # 创建manager对象
 manager = Manager(app)
