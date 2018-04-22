@@ -2,16 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b710229b-b073-4a20-9102-edad5b3566bc" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/ER.mdj" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/iHome/constants.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/iHome/models.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/iHome/response_code.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/iHome/utils/__init__.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/iHome/utils/commons.py" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/iHome/__init__.py" afterPath="$PROJECT_DIR$/iHome/__init__.py" />
-      <change beforePath="$PROJECT_DIR$/iHome/web_html.py" afterPath="$PROJECT_DIR$/iHome/web_html.py" />
-      <change beforePath="$PROJECT_DIR$/manage.py" afterPath="$PROJECT_DIR$/manage.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -303,7 +294,14 @@
       <option name="project" value="LOCAL" />
       <updated>1524323341880</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="模型类，生成数据库表">
+      <created>1524366227368</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1524366227368</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -347,7 +345,8 @@
     <MESSAGE value="工厂方法创建app" />
     <MESSAGE value="构建满足RESTful的的软件框架" />
     <MESSAGE value="集成项目的静态页面" />
-    <option name="LAST_COMMIT_MESSAGE" value="集成项目的静态页面" />
+    <MESSAGE value="模型类，生成数据库表" />
+    <option name="LAST_COMMIT_MESSAGE" value="模型类，生成数据库表" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
