@@ -23,6 +23,13 @@ def login():
     mobile = req_dict.get('mobile')
     password = req_dict.get('password')
 
+    # 补充: 校验手机号是否已经被注册
+    try:
+        user = User.query.filter(User.mobile == mobile).first()
+    except Exception as e:
+        user = None
+        current_app.logger.error(e)
+
     if not all([mobile, password]):
         return jsonify(errno=RET.PARAMERR, errmsg='参数不完整')
 

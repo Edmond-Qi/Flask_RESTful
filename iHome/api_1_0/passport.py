@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 from . import api
-from flask import request,jsonify, current_app
+from flask import request,jsonify, current_app, session
 from iHome.response_code import RET
 from iHome import redis_store,db
 from iHome.models import User
@@ -55,6 +55,11 @@ def register():
         db.session.rollback()
         current_app.logger.error(e)
         return jsonify(errno=RET.DBERR, errmsg='保存用户信息失败')
+
+    # 用户注册成功之后记录用户的登陆状态
+    session['user_id'] = user.id
+    session['user_name'] = user.name
+    session['mobile'] = user.mobile
 
     # 6. 返回应答，告诉注册成功
     return jsonify(errno=RET.OK, errmsg='注册成功')
