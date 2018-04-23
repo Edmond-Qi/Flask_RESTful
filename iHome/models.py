@@ -33,9 +33,13 @@ class User(BaseModel, db.Model):
     def password(self):
         return AttributeError('不能取值')
 
-    @property.setter
+    @password.setter
     def password(self, value):
         self.password_hash = generate_password_hash(value)
+
+    def check_user_passsword(self,pw):
+        # 对用户的密码进行校验
+        return check_password_hash(self.password_hash, pw)
 
 
 class Area(BaseModel, db.Model):

@@ -25,5 +25,32 @@ $(document).ready(function() {
             $("#password-err").show();
             return;
         }
+
+        // 请求登录
+        var params = {
+            "mobile": mobile,
+            "password": passwd
+        }
+
+        $.ajax({
+            "url": "/api/v1.0/session",
+            "type": "post",
+            "data": JSON.stringify(params),
+            "contentType": "application/json",
+            "headers": {
+                "X-CSRFToken": getCookie("csrf_token")
+            },
+            "success": function (resp) {
+                if (resp.errno == "0") {
+                    // 登录成功，跳转到首页
+                    location.href = '/'
+                }
+                else {
+                    // 登录失败
+                    $("#password-err span").html(resp.errmsg);
+                    $("#password-err").show();
+                }
+            }
+        })
     });
 })
