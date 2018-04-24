@@ -41,6 +41,13 @@ class User(BaseModel, db.Model):
         # 对用户的密码进行校验
         return check_password_hash(self.password_hash, pw)
 
+    def to_dict(self):
+        resp = {
+            'user_id': self.id,
+            'username': self.name,
+            'avatar_url': constants.QINIU_DOMIN_PREFIX + (self.avatar_url if self.avatar_url else '')
+        }
+        return resp
 
 class Area(BaseModel, db.Model):
     """城区"""
