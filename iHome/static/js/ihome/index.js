@@ -75,26 +75,48 @@ $(document).ready(function(){
         }
     })
 
-    // TODO: 获取幻灯片要展示的房屋基本信息
-
-    // TODO: 数据设置完毕后,需要设置幻灯片对象，开启幻灯片滚动
-    var mySwiper = new Swiper ('.swiper-container', {
-        loop: true,
-        autoplay: 2000,
-        autoplayDisableOnInteraction: false,
-        pagination: '.swiper-pagination',
-        paginationClickable: true
-    });
+// TODO: 获取幻灯片要展示的房屋基本信息
+    $.get("/api/v1.0/houses/index", function (resp) {
+        if (resp.errno == "0") {
+            // 获取首页房屋信息成功
+            // 设置首页房屋幻灯片信息
+            var html = template("swiper-houses-tmpl", {"houses": resp.data});
+            $(".swiper-wrapper").html(html);
+            // TODO: 数据设置完毕后,需要设置幻灯片对象，开启幻灯片滚动
+            var mySwiper = new Swiper ('.swiper-container', {
+                loop: true,
+                autoplay: 2000,
+                autoplayDisableOnInteraction: false,
+                pagination: '.swiper-pagination',
+                paginationClickable: true
+            });
+        }
+        else {
+            // 出错
+            alert(resp.errmsg);
+        }
+    })
 
     // TODO: 获取城区信息,获取完毕之后需要设置城区按钮点击之后相关操作
-
-    // TODO: 城区按钮点击之后相关操作
-    $(".area-list a").click(function(e){
-        $("#area-btn").html($(this).html());
-        $(".search-btn").attr("area-id", $(this).attr("area-id"));
-        $(".search-btn").attr("area-name", $(this).html());
-        $("#area-modal").modal("hide");
-    });
+    $.get("/api/v1.0/areas", function (resp) {
+        if (resp.errno == "0") {
+            // 获取城区信息成功
+            // 设置首页城区的信息
+            var html = template("area-list-tmpl", {"areas": resp.data});
+            $(".area-list").html(html);
+             // TODO: 城区按钮点击之后相关操作
+            $(".area-list a").click(function(e){
+                $("#area-btn").html($(this).html());
+                $(".search-btn").attr("area-id", $(this).attr("area-id"));
+                $(".search-btn").attr("area-name", $(this).html());
+                $("#area-modal").modal("hide");
+            });
+        }
+        else {
+            // 出错
+            alert(resp.errmsg);
+        }
+    })
 
     $('.modal').on('show.bs.modal', centerModals);      //当模态框出现的时候
     $(window).on('resize', centerModals);               //当窗口大小变化的时候

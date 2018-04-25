@@ -6,7 +6,8 @@ from iHome.response_code import RET
 from flask import current_app, jsonify, request, g, session
 from iHome.utils.commons import login_required
 from iHome.utils.image_storage import image_storage
-from iHome import db, constants
+from iHome import db, constants, redis_store
+import json
 
 
 @api.route('/houses/index')
@@ -120,16 +121,32 @@ def get_areas():
     获取城区信息：
     """
     # 1. 从数据库中获取所有的城区信息
+    # 先尝试从缓存中获取城区的信息，如果获取到，直接返回，如果获取不到，再去查询数据库
+    try:
+        area_json_str = redis_store.get("ares")
+        if area_json_str:
+            areas_dict_li = json.loads(area_json_str)
+            return jsonify(errno=RET.OK, errmsg='OK', data=areas_dict_li)
+    except Exception as e:
+        current_app.logger.error(e)
+
     try:
         areas = Area.query.all()
     except Exception as e:
         current_app.logger(e)
-        return jsonify(errno=RET.DBERR, errmsg='')
+        return jsonify(errno=RET.DBERR, errmsg='查询城区信息失败')
 
     # 2. 组织数据，返回应答
     areas_dict_li = []
     for area in areas:
         areas_dict_li.append(area.to_dict())
+
+    # redis设置缓存
+    try:
+        redis_store.set("areas", json.dumps(areas_dict_li), constants.AREA_INFO_REDIS_EXPIRES)
+    except Exception as e:
+        current_app.logger.error(e)
+
 
     return jsonify(errno=RET.OK, errmsg='OK', data=areas_dict_li)
 
