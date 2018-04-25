@@ -13,7 +13,7 @@ from iHome.utils.commons import login_required
 def set_user_auth():
     """
     用户实名认证功能:
-    0. todo: 判断用户是否登录
+    0. 判断用户是否登录
     1. 获取提交的真实姓名和身份证号并进行参数校验
     2. todo: 使用第三方接口
     3. 设置用户的实名认证信息
