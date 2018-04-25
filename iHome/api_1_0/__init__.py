@@ -8,4 +8,4 @@ api = Blueprint("iHome", __name__)
 # from verify import get_image_code
 # from passport import register
 
-from . import index, passport, verify, profile
+from . import index, passport, verify, profile, house
