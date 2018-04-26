@@ -10,6 +10,31 @@ from iHome import db, constants, redis_store
 import json
 from datetime import datetime
 
+@api.route('/users/houses')
+@login_required
+def get_user_houses():
+    """
+    获取用户发布的房屋信息:
+    1. 根据登录id查询用户的所有房屋信息
+    2. 组织数据，返回应答
+    """
+    # 1. 根据登录id查询用户的所有房屋信息
+    user_id = g.user_id
+    try:
+        houses = House.query.filter(House.user_id == user_id).all()
+    except Exception as e:
+        current_app.logger.error(e)
+        return jsonify(errno=RET.DBERR, errmsg='查询房屋信息失败')
+
+    # 2. 组织数据，返回应答
+    # 组织数据
+    houses_dict_li = []
+    for house in houses:
+        houses_dict_li.append(house.to_basic_dict())
+
+    return jsonify(errno=RET.OK, errmsg='OK', data=houses_dict_li)
+
+
 
 @api.route('/houses')
 def get_house_list():
