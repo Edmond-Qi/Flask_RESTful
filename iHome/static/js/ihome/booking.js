@@ -26,6 +26,13 @@ function showErrorMsg() {
 
 $(document).ready(function(){
     // TODO: 判断用户是否登录
+    $.get("/api/v1.0/session", function (resp) {
+        // 返回值的ok仅表示此次接口调用成功
+        //　业务逻辑的判断还需要自己处理
+        if(!(resp.data.user_id && resp.data.username)){
+            location.href = "login.html"
+        }
+    })
 
     $(".input-daterange").datepicker({
         format: "yyyy-mm-dd",
@@ -52,6 +59,56 @@ $(document).ready(function(){
     var houseId = queryData["hid"];
 
     // TODO: 获取房屋的基本信息
+    $.get("/api/v1.0/house/" + houseId, function (resp) {
+        if (resp.errno == "0") {
+            // 获取房屋信息成功
+            // 设置房屋的信息
+            $(".house-info>img").attr("src", resp.data.house.img_urls[0]);
+            $(".house-text>h3").html(resp.data.house.title);
+            $(".house-text span").html((resp.data.house.price/100).toFixed(2));
+        }
+        else {
+            // 出错
+            alert(resp.errmsg);
+        }
+    })
 
     // TODO: 订单提交
+    $(".submit-btn").click(function () {
+        // 获取预订的起始时间和结束时间
+        var start_date = $("#start-date").val();
+        var end_date = $("#end-date").val();
+
+        if (!(start_date && end_date)) {
+            alert('请选择入住时间');
+            return;
+        }
+
+        var params = {
+            "house_id": houseId,
+            "start_date": start_date,
+            "end_date": end_date
+        };
+
+        // 请求提交订单
+        $.ajax({
+            "url": "/api/v1.0/orders",
+            "type": "post",
+            "data": JSON.stringify(params),
+            "contentType": "application/json",
+            "headers": {
+                "X-CSRFToken": getCookie("csrf_token")
+            },
+            "success": function (resp) {
+                if (resp.errno == "0") {
+                    // 订单创建成功，跳转到用户的订单页面
+                    location.href = 'lorders.html';
+                }
+                else {
+                    // 出错
+                    alert(resp.errmsg);
+                }
+            }
+        })
+    })
 })
